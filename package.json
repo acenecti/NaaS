@@ -1,0 +1,39 @@
+{
+  "name": "naas",
+  "version": "1.0.0",
+  "description": "No as a Service - A configurable Express.js middleware that randomly returns errors",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "start": "node example/server.js"
+  },
+  "keywords": [
+    "express",
+    "middleware",
+    "naas",
+    "no-as-a-service"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/naas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/naas/issues"
+  },
+  "homepage": "https://github.com/yourusername/naas#readme"
+}
