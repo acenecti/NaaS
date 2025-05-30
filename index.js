@@ -75,6 +75,11 @@ class NaaS {
   }
 
   _shouldApplyChaos(req) {
+    // If error rate is 0, never apply chaos
+    if (this.config.errorRate === 0) {
+      return false;
+    }
+
     const env = process.env.NODE_ENV || "development";
     if (!this.config.environments.includes(env)) {
       return false;
@@ -100,6 +105,11 @@ class NaaS {
       ) {
         return false;
       }
+    }
+
+    // If error rate is 100, always apply chaos (after all other checks)
+    if (this.config.errorRate === 100) {
+      return true;
     }
 
     return Math.random() * 100 < this.config.errorRate;
@@ -198,21 +208,26 @@ class NaaS {
 
   async middleware(req, res, next) {
     try {
+      // Execute custom chaos functions first
       for (const chaosFunc of this.config.customChaos) {
         const result = await chaosFunc(req, res);
         if (result === false) {
-          return;
+          return; // Custom chaos function handled the response
         }
       }
 
+      // Check if we should apply chaos
       if (!this._shouldApplyChaos(req)) {
         return next();
       }
 
+      // Apply delay if configured
       await this._applyDelay();
 
+      // Select random error
       const selectedError = this._selectRandomError();
 
+      // Log the chaos application
       this._log("info", "NaaS chaos applied", {
         path: req.path,
         method: req.method,
@@ -220,12 +235,15 @@ class NaaS {
         errorMessage: selectedError.message,
       });
 
+      // Set custom headers first (including default NaaS headers)
+      res.set("X-Chaos-Engineering", "NaaS");
+      res.set("X-NaaS-Version", "1.0.0");
+
       Object.entries(this.config.customHeaders).forEach(([key, value]) => {
         res.set(key, value);
       });
 
-      const errorResponse = this._formatErrorResponse(selectedError, req);
-
+      // Set appropriate content type based on response format
       if (this.config.responseFormat === "xml") {
         res.set("Content-Type", "application/xml");
       } else if (this.config.responseFormat === "plain") {
@@ -234,10 +252,15 @@ class NaaS {
         res.set("Content-Type", "application/json");
       }
 
+      // Format error response
+      const errorResponse = this._formatErrorResponse(selectedError, req);
+
+      // Send the error response
       res.status(selectedError.code).send(errorResponse);
+      return;
     } catch (error) {
       this._log("error", "NaaS middleware error", { error: error.message });
-      next(error);
+      return next(error);
     }
   }
 
