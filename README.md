@@ -17,8 +17,6 @@ Install the package using npm or yarn:
 npm install naas
 ```
 
-````
-
 or
 
 ```bash
@@ -255,4 +253,3 @@ This project is licensed under the MIT License. Consult the `LICENSE` file for d
 
 To report issues, request features, or seek support, please open an issue on the GitHub repository:
 [https://github.com/[yourusername]/naas/issues](https://www.google.com/search?q=https://github.com/%5Byourusername%5D/naas/issues)
-````

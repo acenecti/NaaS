@@ -15,7 +15,7 @@
     "naas",
     "no-as-a-service"
   ],
-  "author": "Your Name",
+  "author": "Acenecti",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2"
@@ -30,10 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/naas.git"
+    "url": "git+https://github.com/acenecti/NaaS.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/naas/issues"
+    "url": "https://github.com/acenecti/NaaS/issues"
   },
-  "homepage": "https://github.com/yourusername/naas#readme"
+  "homepage": "https://github.com/acenecti/NaaS#readme"
 }
